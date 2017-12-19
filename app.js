@@ -145,31 +145,3 @@ function displayResults() {
 }
 
 pushRandomProduct();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// foo
