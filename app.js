@@ -2,31 +2,35 @@
 
 Product.allProducts = [];
 var totalCounter = 0;
+var totalClicksArr = [];
+var allProductNames = [];
+var productBgColors = [];
 
 var newProducts = [
-  ['img/bag.png', 'R2D2 Bag'],
-  ['img/banana.jpg', 'Banana Slicer'],
-  ['img/bathroom.jpg', 'iPad Stand'],
-  ['img/boots.jpg', 'Useless Boots'],
-  ['img/breakfast.jpg', 'Breakfast Bot'],
-  ['img/bubblegum.jpg', 'Meatball Bubble Gum'],
-  ['img/chair.jpg', 'Uncomfortable Chair'],
-  ['img/cthulhu.jpg', 'Lord and Saviour, Cthulhu'],
-  ['img/dog-duck.jpg', 'Duck Nose for Your Dog'],
-  ['img/dragon.jpg', 'Dragon Meat'],
-  ['img/pen.jpg', 'Multiuse Pens'],
-  ['img/pet-sweep.jpg', 'Pet Sweeper'],
-  ['img/scissors.jpg', 'Pizza Scissors'],
-  ['img/shark.jpg', 'Shark Sleeping Bag'],
-  ['img/sweep.png', 'Sweeper Onesie'],
-  ['img/tauntaun.jpg', 'Tauntaun Blanket'],
-  ['img/unicorn.jpg', 'Unicorn Meat'],
-  ['img/usb.gif', 'Squid USB Drive'],
-  ['img/water-can.jpg', 'Useless Watering Can'],
-  ['img/wine-glass.jpg', 'Weird Wine Glass'],
+  // hex codes from https://krazydad.com/tutorials/makecolors.php
+  ['img/bag.png', 'R2D2 Bag', '#C0F5F9'],
+  ['img/banana.jpg', 'Banana Slicer', '#D2FCEE'],
+  ['img/bathroom.jpg', 'iPad Stand', '#E3FEE0'],
+  ['img/boots.jpg', 'Useless Boots', '#F1FBCF'],
+  ['img/breakfast.jpg', 'Breakfast Bot', '#FAF2BC'],
+  ['img/bubblegum.jpg', 'Meatball Bubble Gum', '#FEE5A9'],
+  ['img/chair.jpg', 'Uncomfortable Chair', '#FDD599'],
+  ['img/cthulhu.jpg', 'Lord and Saviour, Cthulhu', '#F6C28C'],
+  ['img/dog-duck.jpg', 'Duck Nose for Your Dog', '#EAAF84'],
+  ['img/dragon.jpg', 'Dragon Meat', '#DA9E81'],
+  ['img/pen.jpg', 'Multiuse Pens', '#C89083'],
+  ['img/pet-sweep.jpg', 'Pet Sweeper', '#B6868B'],
+  ['img/scissors.jpg', 'Pizza Scissors', '#A48198'],
+  ['img/shark.jpg', 'Shark Sleeping Bag', '#9482A8'],
+  ['img/sweep.png', 'Sweeper Onesie', '#8988BA'],
+  ['img/tauntaun.jpg', 'Tauntaun Blanket', '#8293CD'],
+  ['img/unicorn.jpg', 'Unicorn Meat', '#81A2DF'],
+  ['img/usb.gif', 'Squid USB Drive', '#85B4ED'],
+  ['img/water-can.jpg', 'Useless Watering Can', '#8FC7F8'],
+  ['img/wine-glass.jpg', 'Weird Wine Glass', '#9DD9FE'],
 ];
 
-function Product(filepath, stringName) {
+function Product(filepath, stringName, backgroundColor) {
   this.filepath = filepath;
   this.image = filepath.split('/')[1];
   this.name = this.image.split('.')[0];
@@ -34,17 +38,17 @@ function Product(filepath, stringName) {
   this.timesShown = 0;
   this.totalClicks = 0;
   this.previouslyShown = false;
+  this.backgroundColor = backgroundColor;
   Product.allProducts.push(this);
 };
 
 function instantiateProducts() {
   for(var i = 0; i < newProducts.length; i++) {
     var createProduct = newProducts[i];
-    new Product(createProduct[0],createProduct[1]);
+    new Product(createProduct[0],createProduct[1],createProduct[2]);
   }
 }
 
-// Generate random number
 function getRandomIntInclusive(min, max) { // from MDN
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -72,37 +76,47 @@ function renderProduct(product) {
   imgEl.src = product.filepath;
   images.appendChild(imgEl);
 
-  imgEl.addEventListener('click', function() {
-    var imgId = this.id;
+  imgEl.addEventListener('click', clickEvent);
+};
+
+// Event listener - increment totalClicks on click
+function clickEvent(event) {
+  if (totalCounter < 24) {
     replaceImages();
     counter();
 
     for(var i = 0; i < Product.allProducts.length; i++) {
-      if (imgId === Product.allProducts[i].name) {
+      if (event.target.id === Product.allProducts[i].name) {
         Product.allProducts[i].totalClicks += 1;
-      }
-    }
-  }
-  );
-};
-
-// Get random product, use renderProduct to push to DOM
-function pushRandomProduct() {
-  if (totalCounter < 24) {
-    var counter = 3;
-
-    while (counter > 0) {
-      var randomProduct = Product.allProducts[displayRandomProduct()];
-
-      if (randomProduct.previouslyShown === false) {
-        renderProduct(randomProduct);
-        randomProduct.timesShown += 1;
-        randomProduct.previouslyShown = true;
-        counter--;
+        // console.log(Product.allProducts[i].name, Product.allProducts[i].totalClicks);
       }
     }
   } else {
-    displayResults();
+    for(var j = 0; j < Product.allProducts.length; j++) {
+      if (event.target.id === Product.allProducts[j].name) {
+        Product.allProducts[j].totalClicks += 1;
+        // console.log(Product.allProducts[j].name, Product.allProducts[j].totalClicks);
+      }
+    }
+    pushResultsToArrays();
+    drawChart();
+    removeAllProducts();
+  }
+}
+
+// Get random product, use renderProduct to push to DOM
+function pushRandomProduct() {
+  var counter = 3;
+
+  while (counter > 0) {
+    var randomProduct = Product.allProducts[displayRandomProduct()];
+
+    if (randomProduct.previouslyShown === false) {
+      renderProduct(randomProduct);
+      randomProduct.timesShown += 1;
+      randomProduct.previouslyShown = true;
+      counter--;
+    }
   }
 }
 
@@ -123,13 +137,30 @@ function replaceImages() {
   shownBefore[0].previouslyShown = false;
   shownBefore[1].previouslyShown = false;
   shownBefore[2].previouslyShown = false;
+}
 
+function removeAllProducts() {
+  var elem = document.getElementById('images');
+  elem.remove();
 }
 
 function counter() {
   totalCounter += 1;
 }
 
+function pushResultsToArrays() {
+  for(var i = 0; i < Product.allProducts.length; i++) {
+    totalClicksArr.push(Product.allProducts[i].totalClicks);
+  }
+  for(var j = 0; j < Product.allProducts.length; j++) {
+    allProductNames.push(Product.allProducts[j].stringName);
+  }
+  for(var k = 0; k < Product.allProducts.length; k++) {
+    productBgColors.push(Product.allProducts[k].backgroundColor);
+  }
+}
+
+/*Keeping code for the list just in case:
 function displayResults() {
   var images = document.getElementById('images');
   var h2El = document.createElement('h2');
@@ -148,10 +179,55 @@ function displayResults() {
     }
     userTotals.appendChild(liEl);
   }
-}
+  */
 
 function runFocusGroup() {
   instantiateProducts();
   pushRandomProduct();
 }
 runFocusGroup();
+
+
+// CREATE FUNCTION - push ONLY when 25 turns complete
+function drawChart() {
+  var ctx = document.getElementById('myChart');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: allProductNames,
+      // array of labels assigned up above
+      datasets: [{
+        label: '# of Selections',
+        data: totalClicksArr,
+        backgroundColor: productBgColors,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        fontFamily: 'Avenir',
+        fontColor: '#000',
+        text: 'Total Product Selections',
+        fontSize: 26,
+        padding: 20,
+      },
+      barPercentage: 1,
+      categoryPercentage: 1,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero:true,
+            suggestedMax: 4,
+          },
+        }],
+        // found fix for x axis at https://github.com/jtblin/angular-chart.js/issues/423
+        xAxes: [{
+          ticks: {
+            autoSkip: false,
+          }
+        }]
+      }
+    }
+  });
+}

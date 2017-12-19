@@ -12,7 +12,7 @@ img {
   margin: 8px;
   cursor: pointer;
 }
-h2 {
+h3 {
   margin-left: 15px;
   margin-top: 10px;
 }
@@ -20,4 +20,7 @@ li {
   list-style-position: inside;
   margin-left: 15px;
   margin-bottom: 3px;
+}
+canvas {
+  margin-top: 15px;
 }
