@@ -3,6 +3,29 @@
 Product.allProducts = [];
 var totalCounter = 0;
 
+var newProducts = [
+  ['img/bag.png', 'R2D2 Bag'],
+  ['img/banana.jpg', 'Banana Slicer'],
+  ['img/bathroom.jpg', 'iPad Stand'],
+  ['img/boots.jpg', 'Useless Boots'],
+  ['img/breakfast.jpg', 'Breakfast Bot'],
+  ['img/bubblegum.jpg', 'Meatball Bubble Gum'],
+  ['img/chair.jpg', 'Uncomfortable Chair'],
+  ['img/cthulhu.jpg', 'Lord and Saviour, Cthulhu'],
+  ['img/dog-duck.jpg', 'Duck Nose for Your Dog'],
+  ['img/dragon.jpg', 'Dragon Meat'],
+  ['img/pen.jpg', 'Multiuse Pens'],
+  ['img/pet-sweep.jpg', 'Pet Sweeper'],
+  ['img/scissors.jpg', 'Pizza Scissors'],
+  ['img/shark.jpg', 'Shark Sleeping Bag'],
+  ['img/sweep.png', 'Sweeper Onesie'],
+  ['img/tauntaun.jpg', 'Tauntaun Blanket'],
+  ['img/unicorn.jpg', 'Unicorn Meat'],
+  ['img/usb.gif', 'Squid USB Drive'],
+  ['img/water-can.jpg', 'Useless Watering Can'],
+  ['img/wine-glass.jpg', 'Weird Wine Glass'],
+];
+
 function Product(filepath, stringName) {
   this.filepath = filepath;
   this.image = filepath.split('/')[1];
@@ -14,28 +37,12 @@ function Product(filepath, stringName) {
   Product.allProducts.push(this);
 };
 
-// THESE SHOULD BE REFACTORED - LOOP //
-// Instantiate objects - find a way to loop through the img folder instead?
-new Product('img/bag.png', 'R2D2 Bag');
-new Product('img/banana.jpg', 'Banana Slicer');
-new Product('img/bathroom.jpg', 'iPad Stand');
-new Product('img/boots.jpg', 'Useless Boots');
-new Product('img/breakfast.jpg', 'Breakfast Bot');
-new Product('img/bubblegum.jpg', 'Meatball Bubble Gum');
-new Product('img/chair.jpg', 'Uncomfortable Chair');
-new Product('img/cthulhu.jpg', 'Lord and Saviour, Cthulhu');
-new Product('img/dog-duck.jpg', 'Duck Nose for Your Dog');
-new Product('img/dragon.jpg', 'Dragon Meat');
-new Product('img/pen.jpg', 'Multiuse Pens');
-new Product('img/pet-sweep.jpg', 'Pet Sweeper');
-new Product('img/scissors.jpg', 'Pizza Scissors');
-new Product('img/shark.jpg', 'Shark Sleeping Bag');
-new Product('img/sweep.png', 'Sweeper Onesie');
-new Product('img/tauntaun.jpg', 'Tauntaun Blanket');
-new Product('img/unicorn.jpg', 'Unicorn Meat');
-new Product('img/usb.gif', 'Squid USB Drive');
-new Product('img/water-can.jpg', 'Useless Watering Can');
-new Product('img/wine-glass.jpg', 'Weird Wine Glass');
+function instantiateProducts() {
+  for(var i = 0; i < newProducts.length; i++) {
+    var createProduct = newProducts[i];
+    new Product(createProduct[0],createProduct[1]);
+  }
+}
 
 // Generate random number
 function getRandomIntInclusive(min, max) { // from MDN
@@ -75,7 +82,6 @@ function renderProduct(product) {
         Product.allProducts[i].totalClicks += 1;
       }
     }
-    console.log(Product.allProducts);
   }
   );
 };
@@ -96,7 +102,6 @@ function pushRandomProduct() {
       }
     }
   } else {
-    console.log('no more tries');
     displayResults();
   }
 }
@@ -145,4 +150,8 @@ function displayResults() {
   }
 }
 
-pushRandomProduct();
+function runFocusGroup() {
+  instantiateProducts();
+  pushRandomProduct();
+}
+runFocusGroup();
