@@ -1,37 +1,48 @@
+/*
+TO DO
+
+- implement totalCounter conditions (once it reaches 25, stop everything)
+- final table with selections
+
+*/
+
 'use strict';
 
 Product.allProducts = [];
+var totalCounter = 0;
 
-function Product(filepath) {
+function Product(filepath, stringName) {
   this.filepath = filepath;
   this.image = filepath.split('/')[1];
   this.name = this.image.split('.')[0];
+  this.stringName = stringName;
+  this.timesShown = 0;
   this.totalClicks = 0;
   this.previouslyShown = false;
   Product.allProducts.push(this);
 };
 
 // Instantiate objects - find a way to loop through the img folder instead?
-new Product('img/bag.png');
-new Product('img/banana.jpg');
-new Product('img/bathroom.jpg');
-new Product('img/boots.jpg');
-new Product('img/breakfast.jpg');
-new Product('img/bubblegum.jpg');
-new Product('img/chair.jpg');
-new Product('img/cthulhu.jpg');
-new Product('img/dog-duck.jpg');
-new Product('img/dragon.jpg');
-new Product('img/pen.jpg');
-new Product('img/pet-sweep.jpg');
-new Product('img/scissors.jpg');
-new Product('img/shark.jpg');
-new Product('img/sweep.png');
-new Product('img/tauntaun.jpg');
-new Product('img/unicorn.jpg');
-new Product('img/usb.gif');
-new Product('img/water-can.jpg');
-new Product('img/wine-glass.jpg');
+new Product('img/bag.png', 'R2D2 Bag');
+new Product('img/banana.jpg', 'Banana Slicer');
+new Product('img/bathroom.jpg', 'iPad Stand');
+new Product('img/boots.jpg', 'Useless Boots');
+new Product('img/breakfast.jpg', 'Breakfast Bot');
+new Product('img/bubblegum.jpg', 'Meatball Bubble Gum');
+new Product('img/chair.jpg', 'Uncomfortable Chair');
+new Product('img/cthulhu.jpg', 'Lord and Saviour, Cthulhu');
+new Product('img/dog-duck.jpg', 'Duck Nose for Your Dog');
+new Product('img/dragon.jpg', 'Dragon Meat');
+new Product('img/pen.jpg', 'Multiuse Pens');
+new Product('img/pet-sweep.jpg', 'Pet Sweeper');
+new Product('img/scissors.jpg', 'Pizza Scissors');
+new Product('img/shark.jpg', 'Shark Sleeping Bag');
+new Product('img/sweep.png', 'Sweeper Onesie');
+new Product('img/tauntaun.jpg', 'Tauntaun Blanket');
+new Product('img/unicorn.jpg', 'Unicorn Meat');
+new Product('img/usb.gif', 'Squid USB Drive');
+new Product('img/water-can.jpg', 'Useless Watering Can');
+new Product('img/wine-glass.jpg', 'Weird Wine Glass');
 
 // Generate random number
 function getRandomIntInclusive(min, max) { // from MDN
@@ -45,7 +56,7 @@ function displayRandomProduct() {
   return (getRandomIntInclusive(1, Product.allProducts.length) - 1);
 };
 
-// Push product to DOM
+// Push product to DOM, event listeners
 function renderProduct(product) {
   var images = document.getElementById('images');
   var imgEl = document.createElement('img');
@@ -59,71 +70,84 @@ function renderProduct(product) {
   imgEl.setAttributeNode(att); // W3Schools
 
   imgEl.src = product.filepath;
-  imgEl.addEventListener('click', removeRow);
   images.appendChild(imgEl);
+  imgEl.addEventListener('click', replaceImages);
+  imgEl.addEventListener('click', counter);
+  imgEl.addEventListener('click', function() {
+    var imgId = this.id;
+    console.log(imgId);
+
+    for(var i = 0; i < Product.allProducts.length; i++) {
+      if (imgId === Product.allProducts[i].name) {
+        Product.allProducts[i].totalClicks += 1;
+      }
+    }
+    console.log(Product.allProducts);
+  }
+  );
 };
 
 // Get random product, use renderProduct to push to DOM
 function pushRandomProduct() {
-  var counter = 3;
+  if (totalCounter < 25) {
+    var counter = 3;
 
-  while (counter > 0) {
-    var randomProduct = Product.allProducts[displayRandomProduct()];
+    while (counter > 0) {
+      var randomProduct = Product.allProducts[displayRandomProduct()];
 
-    if (randomProduct.previouslyShown === false) {
-      renderProduct(randomProduct);
-      randomProduct.previouslyShown = true;
-      counter--;
+      if (randomProduct.previouslyShown === false) {
+        renderProduct(randomProduct);
+        randomProduct.timesShown += 1;
+        randomProduct.previouslyShown = true;
+        counter--;
+      }
     }
+  } else {
+    console.log('no more tries');
+    displayResults();
   }
 }
-pushRandomProduct();
 
-function removeRow() {
-  // if the image has been shown (previouslyShown = true)
-  // remove it using its id
-  // set it as pS = false
+// Remove existing images, set previous images to "true" for previously shown, increment total counter
+function replaceImages() {
   var shownBefore = [];
 
   for(var i = 0; i < Product.allProducts.length; i++) {
+    var elem = document.getElementById(Product.allProducts[i].name);
+
     if (Product.allProducts[i].previouslyShown === true) {
-      var elem = document.getElementById(Product.allProducts[i].name);
-      shownBefore.push(Product.allProducts[i]);
+      elem = document.getElementById(Product.allProducts[i].name);
       elem.remove(elem);
-      console.log(shownBefore);
+      shownBefore.push(Product.allProducts[i]);
     }
   }
   pushRandomProduct();
-
-  for(var j = 0; j < shownBefore.length; j++) {
-    shownBefore[j] = (Product.allProducts.previouslyShown = false);
-  }
-
-  console.log(Product.allProducts.previouslyShown);
+  shownBefore[0].previouslyShown = false;
+  shownBefore[1].previouslyShown = false;
+  shownBefore[2].previouslyShown = false;
 
 }
 
+function counter() {
+  totalCounter += 1;
+}
 
-// var clickImage = document.getElementsByTagName('img');
+function displayResults() {
+  var userTotals = document.getElementById('final-list');
 
-// select the element you want the script to respond to
+  for(var i = 0; i < Product.allProducts.length; i++) {
+    var liEl = document.createElement('li');
 
-//indicate which event on the nodes will trigger the response
+    if (Product.allProducts[i].totalClicks === 1) {
+      liEl.innerHTML = Product.allProducts[i].totalClicks + ' vote for the ' + Product.allProducts[i].stringName;
+    } else {
+      liEl.innerHTML = Product.allProducts[i].totalClicks + ' votes for the ' + Product.allProducts[i].stringName;
+    }
+    userTotals.appendChild(liEl);
+  }
+}
 
-// state the code you want to run
-
-
-
-
-
-
-
-
-
-
-
-
-
+pushRandomProduct();
 
 
 
