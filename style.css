@@ -1,6 +1,23 @@
+body {
+  width: 960px;
+  margin: 0 auto;
+  font-family: Avenir, sans-serif;
+}
+div {
+  margin-top: 30px;
+}
 img {
   height: 300px;
   border: 1px black solid;
-  margin: 5px;
+  margin: 8px;
   cursor: pointer;
+}
+h2 {
+  margin-left: 15px;
+  margin-top: 10px;
+}
+li {
+  list-style-position: inside;
+  margin-left: 15px;
+  margin-bottom: 3px;
 }

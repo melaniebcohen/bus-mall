@@ -1,11 +1,3 @@
-/*
-TO DO
-
-- implement totalCounter conditions (once it reaches 25, stop everything)
-- final table with selections
-
-*/
-
 'use strict';
 
 Product.allProducts = [];
@@ -89,7 +81,7 @@ function renderProduct(product) {
 
 // Get random product, use renderProduct to push to DOM
 function pushRandomProduct() {
-  if (totalCounter < 25) {
+  if (totalCounter < 24) {
     var counter = 3;
 
     while (counter > 0) {
@@ -133,7 +125,12 @@ function counter() {
 }
 
 function displayResults() {
-  var userTotals = document.getElementById('final-list');
+  var images = document.getElementById('images');
+  var h2El = document.createElement('h2');
+  h2El.innerHTML = 'Total Product Votes: ';
+  images.appendChild(h2El);
+
+  var userTotals = document.getElementById('images');
 
   for(var i = 0; i < Product.allProducts.length; i++) {
     var liEl = document.createElement('li');
