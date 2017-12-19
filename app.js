@@ -1,5 +1,3 @@
-// TO DO: CHART JS SHOULD BE LOCAL
-
 'use strict';
 
 Product.allProducts = [];
@@ -78,39 +76,47 @@ function renderProduct(product) {
   imgEl.src = product.filepath;
   images.appendChild(imgEl);
 
-  imgEl.addEventListener('click', function() {
-    var imgId = this.id;
-    console.log(imgId);
+  imgEl.addEventListener('click', clickEvent);
+};
+
+// Event listener - increment totalClicks on click
+function clickEvent(event) {
+  if (totalCounter < 24) {
     replaceImages();
     counter();
 
     for(var i = 0; i < Product.allProducts.length; i++) {
-      if (imgId === Product.allProducts[i].name) {
+      if (event.target.id === Product.allProducts[i].name) {
         Product.allProducts[i].totalClicks += 1;
-      }
-    }
-  }
-  );
-};
-
-// Get random product, use renderProduct to push to DOM
-function pushRandomProduct() {
-  if (totalCounter < 24) {
-    var counter = 3;
-
-    while (counter > 0) {
-      var randomProduct = Product.allProducts[displayRandomProduct()];
-
-      if (randomProduct.previouslyShown === false) {
-        renderProduct(randomProduct);
-        randomProduct.timesShown += 1;
-        randomProduct.previouslyShown = true;
-        counter--;
+        // console.log(Product.allProducts[i].name, Product.allProducts[i].totalClicks);
       }
     }
   } else {
-    displayResults();
-    // !!! need to figure out how to add the last result here
+    for(var j = 0; j < Product.allProducts.length; j++) {
+      if (event.target.id === Product.allProducts[j].name) {
+        Product.allProducts[j].totalClicks += 1;
+        // console.log(Product.allProducts[j].name, Product.allProducts[j].totalClicks);
+      }
+    }
+    pushResultsToArrays();
+    drawChart();
+    removeAllProducts();
+  }
+}
+
+// Get random product, use renderProduct to push to DOM
+function pushRandomProduct() {
+  var counter = 3;
+
+  while (counter > 0) {
+    var randomProduct = Product.allProducts[displayRandomProduct()];
+
+    if (randomProduct.previouslyShown === false) {
+      renderProduct(randomProduct);
+      randomProduct.timesShown += 1;
+      randomProduct.previouslyShown = true;
+      counter--;
+    }
   }
 }
 
@@ -133,6 +139,11 @@ function replaceImages() {
   shownBefore[2].previouslyShown = false;
 }
 
+function removeAllProducts() {
+  var elem = document.getElementById('images');
+  elem.remove();
+}
+
 function counter() {
   totalCounter += 1;
 }
@@ -149,27 +160,26 @@ function pushResultsToArrays() {
   }
 }
 
+/*Keeping code for the list just in case:
 function displayResults() {
-  // var images = document.getElementById('images');
-  // var h2El = document.createElement('h2');
-  // h2El.innerHTML = 'Total Product Votes: ';
-  // images.appendChild(h2El);
-  //
-  // var userTotals = document.getElementById('images');
-  //
-  // for(var i = 0; i < Product.allProducts.length; i++) {
-  //   var liEl = document.createElement('li');
-  //
-  //   if (Product.allProducts[i].totalClicks === 1) {
-  //     liEl.innerHTML = Product.allProducts[i].totalClicks + ' vote for the ' + Product.allProducts[i].stringName;
-  //   } else {
-  //     liEl.innerHTML = Product.allProducts[i].totalClicks + ' votes for the ' + Product.allProducts[i].stringName;
-  //   }
-  //   userTotals.appendChild(liEl);
-  // }
-  pushResultsToArrays();
-  drawChart();
-}
+  var images = document.getElementById('images');
+  var h2El = document.createElement('h2');
+  h2El.innerHTML = 'Total Product Votes: ';
+  images.appendChild(h2El);
+
+  var userTotals = document.getElementById('images');
+
+  for(var i = 0; i < Product.allProducts.length; i++) {
+    var liEl = document.createElement('li');
+
+    if (Product.allProducts[i].totalClicks === 1) {
+      liEl.innerHTML = Product.allProducts[i].totalClicks + ' vote for the ' + Product.allProducts[i].stringName;
+    } else {
+      liEl.innerHTML = Product.allProducts[i].totalClicks + ' votes for the ' + Product.allProducts[i].stringName;
+    }
+    userTotals.appendChild(liEl);
+  }
+  */
 
 function runFocusGroup() {
   instantiateProducts();
@@ -194,7 +204,14 @@ function drawChart() {
       }]
     },
     options: {
-      barPercentage: .5,
+      title: {
+        display: true,
+        fontFamily: 'Avenir',
+        fontColor: '#000',
+        text: 'Total Product Selections',
+        fontSize: 26,
+      },
+      barPercentage: 1,
       categoryPercentage: 1,
       scales: {
         yAxes: [{
@@ -213,22 +230,3 @@ function drawChart() {
     }
   });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//foo
