@@ -83,14 +83,24 @@ function removeRow() {
   // if the image has been shown (previouslyShown = true)
   // remove it using its id
   // set it as pS = false
+  var shownBefore = [];
+
   for(var i = 0; i < Product.allProducts.length; i++) {
     if (Product.allProducts[i].previouslyShown === true) {
       var elem = document.getElementById(Product.allProducts[i].name);
-      console.log(Product.allProducts[i].name);
+      shownBefore.push(Product.allProducts[i]);
       elem.remove(elem);
+      console.log(shownBefore);
     }
   }
   pushRandomProduct();
+
+  for(var j = 0; j < shownBefore.length; j++) {
+    shownBefore[j] = (Product.allProducts.previouslyShown = false);
+  }
+
+  console.log(Product.allProducts.previouslyShown);
+
 }
 
 
