@@ -12,4 +12,5 @@ Brian said that the Bus Mall assignment would likely be easier than Salmon Cooki
 
 **Overcoming Challenges**
 Michael gave me a tip for the event listener that I would not have gotten on my own because I was completely lost. That really helped and I was able to build from there. The rest of it was just Google and being stubborn, I guess?
+
 ----
