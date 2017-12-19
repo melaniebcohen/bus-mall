@@ -95,7 +95,7 @@ function renderProduct(product) {
 
 // Get random product, use renderProduct to push to DOM
 function pushRandomProduct() {
-  if (totalCounter < 10) {
+  if (totalCounter < 24) {
     var counter = 3;
 
     while (counter > 0) {
@@ -147,30 +147,27 @@ function pushResultsToArrays() {
   for(var k = 0; k < Product.allProducts.length; k++) {
     productBgColors.push(Product.allProducts[k].backgroundColor);
   }
-  console.log(productBgColors);
 }
 
 function displayResults() {
-  var images = document.getElementById('images');
-  var h2El = document.createElement('h2');
-  h2El.innerHTML = 'Total Product Votes: ';
-  images.appendChild(h2El);
-
-  var userTotals = document.getElementById('images');
-
-  for(var i = 0; i < Product.allProducts.length; i++) {
-    var liEl = document.createElement('li');
-
-    if (Product.allProducts[i].totalClicks === 1) {
-      liEl.innerHTML = Product.allProducts[i].totalClicks + ' vote for the ' + Product.allProducts[i].stringName;
-    } else {
-      liEl.innerHTML = Product.allProducts[i].totalClicks + ' votes for the ' + Product.allProducts[i].stringName;
-    }
-    userTotals.appendChild(liEl);
-  }
+  // var images = document.getElementById('images');
+  // var h2El = document.createElement('h2');
+  // h2El.innerHTML = 'Total Product Votes: ';
+  // images.appendChild(h2El);
+  //
+  // var userTotals = document.getElementById('images');
+  //
+  // for(var i = 0; i < Product.allProducts.length; i++) {
+  //   var liEl = document.createElement('li');
+  //
+  //   if (Product.allProducts[i].totalClicks === 1) {
+  //     liEl.innerHTML = Product.allProducts[i].totalClicks + ' vote for the ' + Product.allProducts[i].stringName;
+  //   } else {
+  //     liEl.innerHTML = Product.allProducts[i].totalClicks + ' votes for the ' + Product.allProducts[i].stringName;
+  //   }
+  //   userTotals.appendChild(liEl);
+  // }
   pushResultsToArrays();
-  console.log(totalClicksArr);
-  console.log(allProductNames);
   drawChart();
 }
 
@@ -190,7 +187,7 @@ function drawChart() {
       labels: allProductNames,
       // array of labels assigned up above
       datasets: [{
-        label: '# of Votes',
+        label: '# of Selections',
         data: totalClicksArr,
         backgroundColor: productBgColors,
         borderWidth: 1
@@ -203,7 +200,8 @@ function drawChart() {
         yAxes: [{
           ticks: {
             beginAtZero:true,
-          }
+            suggestedMax: 4,
+          },
         }],
         // found fix for x axis at https://github.com/jtblin/angular-chart.js/issues/423
         xAxes: [{
