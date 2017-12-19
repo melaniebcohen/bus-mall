@@ -210,6 +210,7 @@ function drawChart() {
         fontColor: '#000',
         text: 'Total Product Selections',
         fontSize: 26,
+        padding: 20,
       },
       barPercentage: 1,
       categoryPercentage: 1,
