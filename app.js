@@ -14,6 +14,7 @@ function Product(filepath, stringName) {
   Product.allProducts.push(this);
 };
 
+// THESE SHOULD BE REFACTORED - LOOP //
 // Instantiate objects - find a way to loop through the img folder instead?
 new Product('img/bag.png', 'R2D2 Bag');
 new Product('img/banana.jpg', 'Banana Slicer');
@@ -63,11 +64,11 @@ function renderProduct(product) {
 
   imgEl.src = product.filepath;
   images.appendChild(imgEl);
-  imgEl.addEventListener('click', replaceImages);
-  imgEl.addEventListener('click', counter);
+
   imgEl.addEventListener('click', function() {
     var imgId = this.id;
-    console.log(imgId);
+    replaceImages();
+    counter();
 
     for(var i = 0; i < Product.allProducts.length; i++) {
       if (imgId === Product.allProducts[i].name) {
