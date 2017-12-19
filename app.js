@@ -49,27 +49,68 @@ function displayRandomProduct() {
 function renderProduct(product) {
   var images = document.getElementById('images');
   var imgEl = document.createElement('img');
+
+  var att = document.createAttribute('id');
+  att.value = product.name;
+  imgEl.setAttributeNode(att); // W3Schools
+
+  att = document.createAttribute('class');
+  att.value = 'product-image';
+  imgEl.setAttributeNode(att); // W3Schools
+
   imgEl.src = product.filepath;
+  imgEl.addEventListener('click', removeRow);
   images.appendChild(imgEl);
 };
 
+// Get random product, use renderProduct to push to DOM
 function pushRandomProduct() {
   var counter = 3;
 
   while (counter > 0) {
     var randomProduct = Product.allProducts[displayRandomProduct()];
-    console.log(randomProduct);
 
     if (randomProduct.previouslyShown === false) {
       renderProduct(randomProduct);
       randomProduct.previouslyShown = true;
       counter--;
     }
-  // if Product.allProducts.previouslyShown is false - SHOW
   }
 }
 pushRandomProduct();
 
+function removeRow() {
+  // if the image has been shown (previouslyShown = true)
+  // remove it using its id
+  // set it as pS = false
+  var shownBefore = [];
+
+  for(var i = 0; i < Product.allProducts.length; i++) {
+    if (Product.allProducts[i].previouslyShown === true) {
+      var elem = document.getElementById(Product.allProducts[i].name);
+      shownBefore.push(Product.allProducts[i]);
+      elem.remove(elem);
+      console.log(shownBefore);
+    }
+  }
+  pushRandomProduct();
+
+  for(var j = 0; j < shownBefore.length; j++) {
+    shownBefore[j] = (Product.allProducts.previouslyShown = false);
+  }
+
+  console.log(Product.allProducts.previouslyShown);
+
+}
+
+
+// var clickImage = document.getElementsByTagName('img');
+
+// select the element you want the script to respond to
+
+//indicate which event on the nodes will trigger the response
+
+// state the code you want to run
 
 
 
