@@ -62,17 +62,6 @@ else {
   totalCounterArr = [];
 }
 
-// save data to local storage
-function save() {
-  totalCounterArr.push(totalCounter);
-  localStorage.totalCounterArr = totalCounterArr;
-
-  localStorage.productData = JSON.stringify(Product.allProducts);
-  console.log(localStorage.productData);
-  console.log('total counter',totalCounter);
-  console.log('loc storage total counter arr',totalCounterArr);
-}
-
 function getRandomIntInclusive(min, max) { // from MDN
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -181,10 +170,31 @@ function pushResultsToArrays() {
   }
 }
 
+// save data to local storage
+function save() {
+  totalCounterArr.push(totalCounter);
+  localStorage.totalCounterArr = totalCounterArr;
+
+  localStorage.productData = JSON.stringify(Product.allProducts);
+  console.log(localStorage.productData);
+  console.log('total counter',totalCounter);
+  console.log('loc storage total counter arr',totalCounterArr);
+}
+
+// save data to local storage
+// got help from https://stackoverflow.com/questions/18238173/javascript-loop-through-json-array
+function load() {
+  console.log(localStorage.productData);
+  for(var i = 0; i < localStorage.productData; i++) {
+    Product.allProducts[i] = JSON.parse(localStorage.productData[i]);
+  }
+}
+
 function runFocusGroup() {
   instantiateProducts();
   pushRandomProduct();
 }
+load();
 runFocusGroup();
 
 // CREATE FUNCTION - push ONLY when 25 turns complete
