@@ -1,7 +1,9 @@
 'use strict';
 
 Product.allProducts = [];
+var productArr = [];
 var totalCounter = 0;
+var totalCounterArr = [];
 var totalClicksArr = [];
 var allProductNames = [];
 var productBgColors = [];
@@ -49,6 +51,28 @@ function instantiateProducts() {
   }
 }
 
+// if localStorage.totalCounterArr exists, display it on console.log
+if (localStorage.totalCounterArr) {
+  totalCounterArr = localStorage.totalCounterArr.split(',');
+  totalCounter = totalCounterArr.length;
+  console.log('total counter',totalCounter);
+  console.log('loc storage total counter arr',totalCounterArr);
+}
+else {
+  totalCounterArr = [];
+}
+
+// save data to local storage
+function save() {
+  totalCounterArr.push(totalCounter);
+  localStorage.totalCounterArr = totalCounterArr;
+
+  localStorage.productData = JSON.stringify(Product.allProducts);
+  console.log(localStorage.productData);
+  console.log('total counter',totalCounter);
+  console.log('loc storage total counter arr',totalCounterArr);
+}
+
 function getRandomIntInclusive(min, max) { // from MDN
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -81,16 +105,16 @@ function renderProduct(product) {
 
 // Event listener - increment totalClicks on click
 function clickEvent(event) {
-  if (totalCounter < 24) {
+  if (totalCounterArr.length < 24) {
     replaceImages();
-    counter();
+    totalCounter += 1;
 
     for(var i = 0; i < Product.allProducts.length; i++) {
       if (event.target.id === Product.allProducts[i].name) {
         Product.allProducts[i].totalClicks += 1;
-        // console.log(Product.allProducts[i].name, Product.allProducts[i].totalClicks);
       }
     }
+    save();
   } else {
     for(var j = 0; j < Product.allProducts.length; j++) {
       if (event.target.id === Product.allProducts[j].name) {
@@ -144,10 +168,7 @@ function removeAllProducts() {
   elem.remove();
 }
 
-function counter() {
-  totalCounter += 1;
-}
-
+// push results to arrays for chart generation
 function pushResultsToArrays() {
   for(var i = 0; i < Product.allProducts.length; i++) {
     totalClicksArr.push(Product.allProducts[i].totalClicks);
@@ -160,33 +181,11 @@ function pushResultsToArrays() {
   }
 }
 
-/*Keeping code for the list just in case:
-function displayResults() {
-  var images = document.getElementById('images');
-  var h2El = document.createElement('h2');
-  h2El.innerHTML = 'Total Product Votes: ';
-  images.appendChild(h2El);
-
-  var userTotals = document.getElementById('images');
-
-  for(var i = 0; i < Product.allProducts.length; i++) {
-    var liEl = document.createElement('li');
-
-    if (Product.allProducts[i].totalClicks === 1) {
-      liEl.innerHTML = Product.allProducts[i].totalClicks + ' vote for the ' + Product.allProducts[i].stringName;
-    } else {
-      liEl.innerHTML = Product.allProducts[i].totalClicks + ' votes for the ' + Product.allProducts[i].stringName;
-    }
-    userTotals.appendChild(liEl);
-  }
-  */
-
 function runFocusGroup() {
   instantiateProducts();
   pushRandomProduct();
 }
 runFocusGroup();
-
 
 // CREATE FUNCTION - push ONLY when 25 turns complete
 function drawChart() {
