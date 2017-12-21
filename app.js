@@ -1,9 +1,9 @@
+// PROBLEM: Whenever I refresh the page, the totalClicks doesn't come over
+
 'use strict';
 
 Product.allProducts = [];
-var productArr = [];
 var totalCounter = 0;
-var totalCounterArr = [];
 var totalClicksArr = [];
 var allProductNames = [];
 var productBgColors = [];
@@ -37,29 +37,35 @@ function Product(filepath, stringName, backgroundColor) {
   this.image = filepath.split('/')[1];
   this.name = this.image.split('.')[0];
   this.stringName = stringName;
-  this.timesShown = 0;
   this.totalClicks = 0;
+  this.timesShown = 0;
   this.previouslyShown = false;
   this.backgroundColor = backgroundColor;
   Product.allProducts.push(this);
 };
+
+function load() {
+  console.log(localStorage.totalCounter);
+  if ((localStorage.totalCounter === '24') && localStorage.productData) {
+    Product.allProducts = JSON.parse(localStorage.productData);
+    removeAllProducts();
+    pushResultsToArrays();
+    drawChart();
+  } else if (localStorage.productData) {
+    for(var j = 0; j < Product.allProducts; j++) {
+      Product.allProducts[j] = JSON.parse(localStorage.productData);
+    }
+    runFocusGroup();
+  } else {
+    runFocusGroup();
+  }
+}
 
 function instantiateProducts() {
   for(var i = 0; i < newProducts.length; i++) {
     var createProduct = newProducts[i];
     new Product(createProduct[0],createProduct[1],createProduct[2]);
   }
-}
-
-// if localStorage.totalCounterArr exists, display it on console.log
-if (localStorage.totalCounterArr) {
-  totalCounterArr = localStorage.totalCounterArr.split(',');
-  totalCounter = totalCounterArr.length;
-  console.log('total counter',totalCounter);
-  console.log('loc storage total counter arr',totalCounterArr);
-}
-else {
-  totalCounterArr = [];
 }
 
 function getRandomIntInclusive(min, max) { // from MDN
@@ -82,10 +88,6 @@ function renderProduct(product) {
   att.value = product.name;
   imgEl.setAttributeNode(att); // W3Schools
 
-  att = document.createAttribute('class');
-  att.value = 'product-image';
-  imgEl.setAttributeNode(att); // W3Schools
-
   imgEl.src = product.filepath;
   images.appendChild(imgEl);
 
@@ -94,7 +96,7 @@ function renderProduct(product) {
 
 // Event listener - increment totalClicks on click
 function clickEvent(event) {
-  if (totalCounterArr.length < 24) {
+  if (totalCounter < 24) {
     replaceImages();
     totalCounter += 1;
 
@@ -103,17 +105,16 @@ function clickEvent(event) {
         Product.allProducts[i].totalClicks += 1;
       }
     }
-    save();
   } else {
     for(var j = 0; j < Product.allProducts.length; j++) {
       if (event.target.id === Product.allProducts[j].name) {
         Product.allProducts[j].totalClicks += 1;
-        // console.log(Product.allProducts[j].name, Product.allProducts[j].totalClicks);
       }
     }
+    save();
+    removeAllProducts();
     pushResultsToArrays();
     drawChart();
-    removeAllProducts();
   }
 }
 
@@ -172,30 +173,16 @@ function pushResultsToArrays() {
 
 // save data to local storage
 function save() {
-  totalCounterArr.push(totalCounter);
-  localStorage.totalCounterArr = totalCounterArr;
-
   localStorage.productData = JSON.stringify(Product.allProducts);
-  console.log(localStorage.productData);
-  console.log('total counter',totalCounter);
-  console.log('loc storage total counter arr',totalCounterArr);
-}
-
-// save data to local storage
-// got help from https://stackoverflow.com/questions/18238173/javascript-loop-through-json-array
-function load() {
-  console.log(localStorage.productData);
-  for(var i = 0; i < localStorage.productData; i++) {
-    Product.allProducts[i] = JSON.parse(localStorage.productData[i]);
-  }
+  localStorage.totalCounter = totalCounter;
 }
 
 function runFocusGroup() {
   instantiateProducts();
   pushRandomProduct();
 }
+
 load();
-runFocusGroup();
 
 // CREATE FUNCTION - push ONLY when 25 turns complete
 function drawChart() {
