@@ -53,8 +53,6 @@ function load() {
       Product.allProducts[j] = JSON.parse(localStorage.productData);
     }
     totalCounter = parseInt(localStorage.totalCounter);
-    // var x = localStorage.totalClicksArr.split(',');
-    // totalClicksArr = parseInt(x);
     runFocusGroup();
   } else {
     runFocusGroup();
@@ -174,9 +172,6 @@ function pushResultsToArrays() {
 // save data to local storage
 function save() {
   localStorage.productData = JSON.stringify(Product.allProducts);
-  // localStorage.totalClicksArr = JSON.stringify(totalClicksArr);
-  // localStorage.allProductNames = JSON.stringify(allProductNames);
-  // localStorage.productBgColors = JSON.stringify(productBgColors);
   localStorage.totalCounter = totalCounter;
 }
 
