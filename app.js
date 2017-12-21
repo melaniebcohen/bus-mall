@@ -45,7 +45,6 @@ function Product(filepath, stringName, backgroundColor) {
 };
 
 function load() {
-  console.log(localStorage.totalCounter);
   if ((localStorage.totalCounter === '24') && localStorage.productData) {
     Product.allProducts = JSON.parse(localStorage.productData);
     removeAllProducts();
