@@ -30,3 +30,18 @@ After code review this morning, I refactored several areas of my code. I also fi
 **Overcoming Challenges**
 
 The chartJS documentation really helped, as well as continuing to Google problems as I encounter them. I do feel like I'm starting to get a slightly better grasp on events, which is good.
+
+----
+
+#### Day 13 | Tuesday, December 20
+Covered the following in class:
+- Persistence/Local Storage
+- JSON
+
+**Challenges**
+
+This was brutal. But I also should have read the assignment more clearly before jumping in. I gave myself a lot of unnecessary work...
+
+**Overcoming Challenges**
+
+Well, understanding the assignment more clearly from Michael definitely helped. And knowing that I was doing a lot of unnecessary extra work. Once I figured that out, it was fairly straightforward... until I then attempted the stretch goal again. And failed. Oh well, I do think that it helped me better understand the material so that's good.
