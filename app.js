@@ -1,5 +1,3 @@
-// PROBLEM: Whenever I refresh the page, totalCounter works, but chart only reflects data after refresh
-
 'use strict';
 
 Product.allProducts = [];
