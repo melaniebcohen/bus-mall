@@ -1,4 +1,4 @@
-// PROBLEM: Whenever I refresh the page, the totalClicks doesn't come over
+// PROBLEM: Whenever I refresh the page, totalCounter works, but chart only reflects data after refresh
 
 'use strict';
 
@@ -45,7 +45,6 @@ function Product(filepath, stringName, backgroundColor) {
 };
 
 function load() {
-  console.log(localStorage.totalCounter);
   if ((localStorage.totalCounter === '24') && localStorage.productData) {
     Product.allProducts = JSON.parse(localStorage.productData);
     removeAllProducts();
@@ -55,6 +54,9 @@ function load() {
     for(var j = 0; j < Product.allProducts; j++) {
       Product.allProducts[j] = JSON.parse(localStorage.productData);
     }
+    totalCounter = parseInt(localStorage.totalCounter);
+    // var x = localStorage.totalClicksArr.split(',');
+    // totalClicksArr = parseInt(x);
     runFocusGroup();
   } else {
     runFocusGroup();
@@ -174,6 +176,9 @@ function pushResultsToArrays() {
 // save data to local storage
 function save() {
   localStorage.productData = JSON.stringify(Product.allProducts);
+  // localStorage.totalClicksArr = JSON.stringify(totalClicksArr);
+  // localStorage.allProductNames = JSON.stringify(allProductNames);
+  // localStorage.productBgColors = JSON.stringify(productBgColors);
   localStorage.totalCounter = totalCounter;
 }
 
