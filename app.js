@@ -1,3 +1,5 @@
+// PROBLEM: Whenever I refresh the page, the totalClicks doesn't come over
+
 'use strict';
 
 Product.allProducts = [];
@@ -35,12 +37,29 @@ function Product(filepath, stringName, backgroundColor) {
   this.image = filepath.split('/')[1];
   this.name = this.image.split('.')[0];
   this.stringName = stringName;
-  this.timesShown = 0;
   this.totalClicks = 0;
+  this.timesShown = 0;
   this.previouslyShown = false;
   this.backgroundColor = backgroundColor;
   Product.allProducts.push(this);
 };
+
+function load() {
+  console.log(localStorage.totalCounter);
+  if ((localStorage.totalCounter === '24') && localStorage.productData) {
+    Product.allProducts = JSON.parse(localStorage.productData);
+    removeAllProducts();
+    pushResultsToArrays();
+    drawChart();
+  } else if (localStorage.productData) {
+    for(var j = 0; j < Product.allProducts; j++) {
+      Product.allProducts[j] = JSON.parse(localStorage.productData);
+    }
+    runFocusGroup();
+  } else {
+    runFocusGroup();
+  }
+}
 
 function instantiateProducts() {
   for(var i = 0; i < newProducts.length; i++) {
@@ -69,10 +88,6 @@ function renderProduct(product) {
   att.value = product.name;
   imgEl.setAttributeNode(att); // W3Schools
 
-  att = document.createAttribute('class');
-  att.value = 'product-image';
-  imgEl.setAttributeNode(att); // W3Schools
-
   imgEl.src = product.filepath;
   images.appendChild(imgEl);
 
@@ -83,24 +98,23 @@ function renderProduct(product) {
 function clickEvent(event) {
   if (totalCounter < 24) {
     replaceImages();
-    counter();
+    totalCounter += 1;
 
     for(var i = 0; i < Product.allProducts.length; i++) {
       if (event.target.id === Product.allProducts[i].name) {
         Product.allProducts[i].totalClicks += 1;
-        // console.log(Product.allProducts[i].name, Product.allProducts[i].totalClicks);
       }
     }
   } else {
     for(var j = 0; j < Product.allProducts.length; j++) {
       if (event.target.id === Product.allProducts[j].name) {
         Product.allProducts[j].totalClicks += 1;
-        // console.log(Product.allProducts[j].name, Product.allProducts[j].totalClicks);
       }
     }
+    save();
+    removeAllProducts();
     pushResultsToArrays();
     drawChart();
-    removeAllProducts();
   }
 }
 
@@ -144,10 +158,7 @@ function removeAllProducts() {
   elem.remove();
 }
 
-function counter() {
-  totalCounter += 1;
-}
-
+// push results to arrays for chart generation
 function pushResultsToArrays() {
   for(var i = 0; i < Product.allProducts.length; i++) {
     totalClicksArr.push(Product.allProducts[i].totalClicks);
@@ -160,33 +171,18 @@ function pushResultsToArrays() {
   }
 }
 
-/*Keeping code for the list just in case:
-function displayResults() {
-  var images = document.getElementById('images');
-  var h2El = document.createElement('h2');
-  h2El.innerHTML = 'Total Product Votes: ';
-  images.appendChild(h2El);
-
-  var userTotals = document.getElementById('images');
-
-  for(var i = 0; i < Product.allProducts.length; i++) {
-    var liEl = document.createElement('li');
-
-    if (Product.allProducts[i].totalClicks === 1) {
-      liEl.innerHTML = Product.allProducts[i].totalClicks + ' vote for the ' + Product.allProducts[i].stringName;
-    } else {
-      liEl.innerHTML = Product.allProducts[i].totalClicks + ' votes for the ' + Product.allProducts[i].stringName;
-    }
-    userTotals.appendChild(liEl);
-  }
-  */
+// save data to local storage
+function save() {
+  localStorage.productData = JSON.stringify(Product.allProducts);
+  localStorage.totalCounter = totalCounter;
+}
 
 function runFocusGroup() {
   instantiateProducts();
   pushRandomProduct();
 }
-runFocusGroup();
 
+load();
 
 // CREATE FUNCTION - push ONLY when 25 turns complete
 function drawChart() {
