@@ -5,6 +5,7 @@ var totalCounter = 0;
 var totalClicksArr = [];
 var allProductNames = [];
 var productBgColors = [];
+var timesShownArr = [];
 
 var newProducts = [
   // hex codes from https://krazydad.com/tutorials/makecolors.php
@@ -167,6 +168,9 @@ function pushResultsToArrays() {
   for(var k = 0; k < Product.allProducts.length; k++) {
     productBgColors.push(Product.allProducts[k].backgroundColor);
   }
+  for(var l = 0; l < Product.allProducts.length; l++) {
+    timesShownArr.push(Product.allProducts[l].timesShown);
+  }
 }
 
 // save data to local storage
@@ -186,7 +190,7 @@ load();
 function drawChart() {
   var ctx = document.getElementById('myChart');
 
-  var myChart = new Chart(ctx, {
+  var mixedChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: allProductNames,
@@ -196,7 +200,14 @@ function drawChart() {
         data: totalClicksArr,
         backgroundColor: productBgColors,
         borderWidth: 1
-      }]
+      }, {
+        label: '# of Views',
+        data: timesShownArr,
+        type: 'line',
+        backgroundColor: 'rgba(255,255,255, 0.1)',
+        lineTension: 0,
+        borderWidth: 1.5,
+      }],
     },
     options: {
       title: {
@@ -209,11 +220,12 @@ function drawChart() {
       },
       barPercentage: 1,
       categoryPercentage: 1,
+      fill: false,
       scales: {
         yAxes: [{
           ticks: {
             beginAtZero:true,
-            suggestedMax: 4,
+            suggestedMax: 5.5,
           },
         }],
         // found fix for x axis at https://github.com/jtblin/angular-chart.js/issues/423
