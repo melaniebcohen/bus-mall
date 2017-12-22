@@ -185,6 +185,7 @@ load();
 // CREATE FUNCTION - push ONLY when 25 turns complete
 function drawChart() {
   var ctx = document.getElementById('myChart');
+
   var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
