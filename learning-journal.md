@@ -33,7 +33,7 @@ The chartJS documentation really helped, as well as continuing to Google problem
 
 ----
 
-#### Day 13 | Tuesday, December 20
+#### Day 13 | Wednesday, December 20
 Covered the following in class:
 - Persistence/Local Storage
 - JSON
@@ -45,3 +45,18 @@ This was brutal. But I also should have read the assignment more clearly before 
 **Overcoming Challenges**
 
 Well, understanding the assignment more clearly from Michael definitely helped. And knowing that I was doing a lot of unnecessary extra work. Once I figured that out, it was fairly straightforward... until I then attempted the stretch goal again. And failed. Oh well, I do think that it helped me better understand the material so that's good.
+
+----
+
+#### Day 14 | Thursday, December 21
+Covered the following in class:
+- 301 Preview
+- Final Project
+
+**Challenges**
+
+I didn't work much on Bus Mall today, but working on the data structure based on a large data file for the final project was difficult.
+
+**Overcoming Challenges**
+
+Michelle helped me figure out the data and that's really exciting. The biggest challenge at this point is figuring out how to divvy up the work.
