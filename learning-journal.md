@@ -60,3 +60,18 @@ I didn't work much on Bus Mall today, but working on the data structure based on
 **Overcoming Challenges**
 
 Michelle helped me figure out the data and that's really exciting. The biggest challenge at this point is figuring out how to divvy up the work.
+
+----
+
+#### Day 15 | Friday, December 22
+Covered the following in class:
+- 201 Recap
+- Final Project
+
+**Challenges**
+
+I worked on the Bus Mall project last night and got it to a point that I'm happy with. I figured out how to add a second set of data for the number of views using a line graph on top of a bar chart. Wasn't easy, but I'm glad I figured it out.
+
+**Overcoming Challenges**
+
+Most of my challenges are now relating to the final project. We're trying to determine everyone's strengths, their availability over the next week, and how we'll divvy out work. Looking forward to seeing how everything progresses. 
