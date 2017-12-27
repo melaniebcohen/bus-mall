@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BusMall Order Form</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Racing+Sans+One" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>BusMall</h1>
+      </div>
+    </header>
+    <main>
+      <form id="order-form">
+        <fieldset>
+          <label for="products">Products</label>
+          <select id="products" name="products"></select>
+        </fieldset>
+        <fieldset>
+          <label for="quantity">Quantity</label>
+          <input type="number" name="quantity">
+        </fieldset>
+        <fieldset>
+          <label for="first">First Name</label>
+          <input type="text" name="first">
+        </fieldset>
+        <fieldset>
+          <label for="last">Last Name</label>
+          <input type="text" name="last">
+        </fieldset>
+        <fieldset>
+          <label for="street">Street</label>
+          <input type="text" name="street">
+        </fieldset>
+        <fieldset>
+          <label for="city">City</label>
+          <input type="text" name="city">
+        </fieldset>
+        <fieldset>
+          <label for="state">State</label>
+          <input type="text" name="state">
+        </fieldset>
+        <fieldset>
+          <label for="zip">Zip Code</label>
+          <input type="text" name="zip">
+        </fieldset>
+        <fieldset>
+          <label for="phone">Phone</label>
+          <input type="text" name="phone">
+        </fieldset>
+        <fieldset>
+          <label for="credit">Credit Card</label>
+          <input type="number" name="credit">
+        </fieldset>
+        <button type="submit" id="submit-btn">Add to Cart</button>
+      </form>
+    </main>
+    <footer>
+      <div>
+        <p>&copy; BusMall 2017</p>
+      </div>
+    </footer>
+    <script src="order.js"></script>
+  </body>
+</html>
