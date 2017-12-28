@@ -20,39 +20,40 @@
         </fieldset>
         <fieldset>
           <label for="quantity">Quantity</label>
-          <input type="number" name="quantity">
+          <input type="number" name="quantity" required>
         </fieldset>
         <fieldset>
           <label for="first">First Name</label>
-          <input type="text" name="first">
+          <input type="text" name="first" required>
         </fieldset>
         <fieldset>
           <label for="last">Last Name</label>
-          <input type="text" name="last">
+          <input type="text" name="last" required>
         </fieldset>
         <fieldset>
           <label for="street">Street</label>
-          <input type="text" name="street">
+          <input type="text" name="street" required>
         </fieldset>
         <fieldset>
           <label for="city">City</label>
-          <input type="text" name="city">
+          <input type="text" name="city" required>
         </fieldset>
         <fieldset>
           <label for="state">State</label>
-          <input type="text" name="state">
+          <input type="text" name="state" required>
         </fieldset>
         <fieldset>
           <label for="zip">Zip Code</label>
-          <input type="text" name="zip">
+          <input type="text" name="zip" required>
         </fieldset>
         <fieldset>
           <label for="phone">Phone</label>
-          <input type="text" name="phone">
+          <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/tel -->
+          <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="Ex. (206) 555-1234" required>
         </fieldset>
         <fieldset>
           <label for="credit">Credit Card</label>
-          <input type="number" name="credit">
+          <input type="number" name="credit" required>
         </fieldset>
         <button type="submit" id="submit-btn">Add to Cart</button>
       </form>

@@ -1,7 +1,6 @@
 'use strict';
 
 var form = document.getElementById('order-form');
-var cartList = document.getElementById('cart');
 
 Product.allProducts = [];
 var newProducts = [
@@ -68,7 +67,7 @@ function addOptions() {
   for(var i = 0; i < Product.allProducts.length; i++) {
     var option = document.createElement('option');
     option.innerHTML = Product.allProducts[i].stringName;
-    option.value = Product.allProducts[i].name;
+    option.value = Product.allProducts[i].stringName;
 
     form.appendChild(option);
   }
@@ -92,19 +91,16 @@ function addToCart(event) {
 
   cart.push(new Item(product, quantity, first, last, street, city, state, zip, phone, credit));
 
+  save();
+
   form.reset();
 
   window.location.href = 'cart.html';
 };
 
-// CART PAGE
-function renderItem() {
-  var olEl = document.createElement('ol');
-  cartList.appendChild(olEl);
-
-  for(var i = 0; i < )
-
+function save() {
+  localStorage.cartItem = JSON.stringify(cart);
+  localStorage.productData = JSON.stringify(Product.allProducts);
 }
-renderItem();
 
 form.addEventListener('submit',addToCart);

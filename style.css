@@ -44,6 +44,7 @@ canvas {
 footer {
   height: 50px;
   background-color: #d3d3d3;
+  clear: both;
 }
 footer div {
   width: 960px;
@@ -81,4 +82,13 @@ button {
   margin-top: 20px;
   margin-bottom: 190px;
   padding: 10px 30px 10px 30px;
+}
+ol li {
+  padding-top: 20px;
+}
+ol li:first-child {
+  float: left;
+  padding-top: 0;
+  margin-right: 20px;
+  margin-bottom: 235px;
 }
