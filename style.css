@@ -61,7 +61,7 @@ form {
   margin-top: 20px;
 }
 fieldset {
-  padding-top: 10px;
+  padding-top: 8px;
 }
 label, input {
   display: inline-block;
@@ -80,8 +80,14 @@ button {
   border: none;
   border-radius: 5px;
   margin-top: 20px;
-  margin-bottom: 190px;
+  margin-bottom: 125px;
   padding: 10px 30px 10px 30px;
+}
+h2 {
+  margin-top: 25px;
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 0px;
 }
 ol li {
   padding-top: 20px;
@@ -90,5 +96,5 @@ ol li:first-child {
   float: left;
   padding-top: 0;
   margin-right: 20px;
-  margin-bottom: 235px;
+  margin-bottom: 190px;
 }
